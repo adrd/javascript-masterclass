@@ -3,7 +3,7 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Imperative vs Declarative Programming</h2>
+  <h2>Lambda Expressions vs Anonymous Functions</h2>
   <p>(Check the console!)</p>
 `;
 
@@ -13,28 +13,20 @@ const items = Object.freeze([
   { id: "🥤", name: "Big Slurp", price: 299 },
 ]);
 
-// imperative way
-const itemNamesImperative = [];
-for (let index = 0; index < items.length; index++) {
-  const item = items[index];
-  itemNamesImperative.push(item.name);
+// function declaration
+function getItemName(item) {
+  return item.name;
 }
 
-console.log(itemNamesImperative); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
+console.log(items.map(getItemName)); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
 
-// declarative way
-const itemNamesDeclarative = items.map(function (item) {
-  return item.name;
-});
-
-console.log(itemNamesDeclarative); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
-
-const itemsTotalDeclarative = items
-  .map(function (item) {
-    return item.price;
+// anonymous function
+console.log(
+  items.map(function (item) {
+    return item.name;
   })
-  .reduce(function (price, nextPrice) {
-    return price + nextPrice;
-  });
+); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
 
-console.log(itemsTotalDeclarative); // 897
+// lambda expression
+const getItemNameExp = (item) => item.name;
+console.log(items.map(getItemNameExp)); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
