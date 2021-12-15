@@ -1,9 +1,21 @@
-import '../assets/css/style.css';
+import "../assets/css/style.css";
 
-const items = [
-  { id: '🍔', name: 'Super Burger', price: 399 },
-  { id: '🍟', name: 'Jumbo Fries', price: 199 },
-  { id: '🥤', name: 'Big Slurp', price: 299 },
-];
+const app = document.getElementById("app");
+app.innerHTML = `
+  <h1>JavaScript Masterclass</h1>
+  <h2>Immutable vs Mutable Concepts</h2>
+  <p>(Check the console!)</p>
+`;
 
-console.log(items);
+let a = "Super Burger";
+a = "Big Slurp";
+
+const b = a.slice(0, 1);
+
+console.log(a, b); // a = Big Slurp b = B
+
+const x = Object.freeze({ id: "🍟", name: "Jumbo Fries", price: 199 });
+// x = 1234;
+// x.id = "😎";
+
+console.log(x);
