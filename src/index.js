@@ -3,7 +3,7 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Lambda Expressions vs Anonymous Functions</h2>
+  <h2>Pure Functions and Referential Transparency</h2>
   <p>(Check the console!)</p>
 `;
 
@@ -13,20 +13,25 @@ const items = Object.freeze([
   { id: "🥤", name: "Big Slurp", price: 299 },
 ]);
 
-// function declaration
-function getItemName(item) {
-  return item.name;
-}
+// Pure Function?
+// 1. Referential transparency (given same arguments (input) returns same result (output))
+// 2. Side-Effect free (something else does not happen because of function execution)
 
-console.log(items.map(getItemName)); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
+// const getTotalImpure = () => {
+//   console.log(items.reduce((x, y) => x + y.price, 0)); // 897, console.log() = side effect, items is not passed as argument = side effect
+// };
 
-// anonymous function
-console.log(
-  items.map(function (item) {
-    return item.name;
-  })
-); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
+// getTotalImpure();
 
-// lambda expression
-const getItemNameExp = (item) => item.name;
-console.log(items.map(getItemNameExp)); // ['Super Burger', 'Jumbo Fries', 'Big Slurp']
+// const getTotalImpure1 = () => {
+//   document.querySelector("#app").innerHTML = items.reduce(
+//     (x, y) => x + y.price,
+//     0
+//   );
+// }; // #app might not exist, side effect, items is not passed as argument = side effect
+
+// getTotalImpure1();
+
+const getTotalPure = (v) => v.reduce((x, y) => x + y.price, 0);
+// console.log(getTotalPure(items)); // 897
+document.querySelector("#app").innerHTML = getTotalPure(items);
