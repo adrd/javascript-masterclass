@@ -3,7 +3,7 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Function Closures</h2>
+  <h2>Higher-Order Functions</h2>
   <p>(Check the console!)</p>
 `;
 
@@ -13,12 +13,9 @@ const items = Object.freeze([
   { id: "🥤", name: "Big Slurp", price: 299 },
 ]);
 
-// const getNameFromId = (id) => {
-//   return (items) => {
-//     // console.log(items, id);
-//     return items.find((item) => item.id === id).name;
-//   };
-// };
+// Higher Order Function (HOF)
+// 1. Return a new function
+// 2. Take other functions as arguments
 
 const getNameFromId = (id) => (items) =>
   items.find((item) => item.id === id).name;
