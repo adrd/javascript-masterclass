@@ -3,31 +3,36 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Function Pipes and Currying</h2>
+  <h2>Recursion</h2>
   <p>(Check the console!)</p>
 `;
 
-const pipe = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
+// 3 x 2 x 1 = 6
+// 5 x 4 x 3 x 2 x 1 = 120
 
-// f(a, b, c)
-// f(a)(b)(c)
-const curry = (fn) => {
-  return (...args) => {
-    if (args.length >= fn.length) {
-      // console.log(args.length, fn.length);
-      return fn.apply(null, args); // f(a, b, c), apply(context, [a, b, c]) executes the function, apply does pretty much fn(args)
-    }
-    return fn.bind(null, ...args); // f(a)(b)(c), partial function application; bind(context, a, b, c) returns a new function
-  };
+console.log("------factorial imperative-------");
+
+const factorialImperative = (n) => {
+  let result = 1;
+  for (let count = n; count > 1; count--) {
+    result = result * count;
+  }
+  return result;
 };
 
-const split = curry((separator, string) => string.split(separator));
-const join = curry((separator, string) => string.join(separator));
-const map = curry((fn, array) => array.map(fn));
+console.log(factorialImperative(3)); // 6
+console.log(factorialImperative(6)); // 720
+console.log(factorialImperative(9)); // 362880
 
-const toLowerCase = (x) => x.toLowerCase();
+console.log("------factorial declarative-------");
 
-const slugify3 = pipe(split(" "), map(toLowerCase), join("-"));
+const factorialDeclarative = (n) => {
+  if (n > 1) 
+    return n * factorialDeclarative(n - 1);
 
-console.log(slugify3("Ultimate Courses")); // ultimate-courses
-console.log(slugify3("Todd Motto"));       // todd-motto
+  return 1;
+};
+
+console.log(factorialDeclarative(3)); // 6
+console.log(factorialDeclarative(6)); // 720
+console.log(factorialDeclarative(9)); // 362880
