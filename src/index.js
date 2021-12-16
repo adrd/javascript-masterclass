@@ -3,15 +3,11 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Currying and Partial Application</h2>
+  <h2>Function Composition and Currying</h2>
   <p>(Check the console!)</p>
 `;
 
-const items = Object.freeze([
-  { id: "🍔", name: "Super Burger", price: 399 },
-  { id: "🍟", name: "Jumbo Fries", price: 199 },
-  { id: "🥤", name: "Big Slurp", price: 299 },
-]);
+const compose = (...fns) => (x) => fns.reduceRight((v, f) => f(v), x);
 
 // f(a, b, c)
 // f(a)(b)(c)
@@ -25,12 +21,37 @@ const curry = (fn) => {
   };
 };
 
-const getNameFromId = curry(
-  (id, items) => items.find((item) => item.id === id).name
-);
+console.log("---------initial-----------");
 
-const getFries = getNameFromId("🍟", items);
-const getBurgers = getNameFromId("🍔"); // partially applying
+const slugify = "Ultimate Courses"
+  .split(" ")
+  .map((v) => v.toLowerCase())
+  .join("-");
+console.log(slugify); // ultimate-courses
 
-console.log(getFries);          // Jumbo Fries
-console.log(getBurgers(items)); // Super Burger
+console.log("---------curry - partial application-----------");
+
+// const split = (separator) => (string) => string.split(separator);
+const split = curry((separator, string) => string.split(separator));
+// console.log(split(" ")("Ultimate Courses")); // ['Ultimate', 'Courses']
+const join = curry((separator, string) => string.join(separator));
+const map = curry((fn, array) => array.map(fn));
+
+const splitText = split(" ")("Ultimate Courses");
+const mappedText = map((x) => x.toLowerCase())(splitText);
+const joinText = join("-")(mappedText);
+
+console.log(joinText); // ultimate-courses
+
+console.log("---------function composition 1-----------");
+
+const toLowerCase = (x) => x.toLowerCase();
+const slugify2 = (str) => join("-")(map(toLowerCase)(split(" ")(str)));
+console.log(slugify2("Ultimate Courses")); // ultimate-courses
+
+console.log("---------function composition 2-----------");
+
+const slugify3 = compose(join("-"), map(toLowerCase), split(" "));
+
+console.log(slugify3("Ultimate Courses")); // ultimate-courses
+console.log(slugify3("Todd Motto"));       // todd-motto
