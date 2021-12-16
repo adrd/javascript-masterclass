@@ -3,7 +3,7 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Higher-Order Functions</h2>
+  <h2>Currying and Partial Application</h2>
   <p>(Check the console!)</p>
 `;
 
@@ -13,15 +13,24 @@ const items = Object.freeze([
   { id: "🥤", name: "Big Slurp", price: 299 },
 ]);
 
-// Higher Order Function (HOF)
-// 1. Return a new function
-// 2. Take other functions as arguments
+// f(a, b, c)
+// f(a)(b)(c)
+const curry = (fn) => {
+  return (...args) => {
+    if (args.length >= fn.length) {
+      // console.log(args.length, fn.length); // 2 2
+      return fn.apply(null, args); // f(a, b, c), apply(context, [a, b, c]) executes the function, apply does pretty much fn(args)
+    }
+    return fn.bind(null, ...args); // f(a)(b)(c), partial function application; bind(context, a, b, c) returns a new function
+  };
+};
 
-const getNameFromId = (id) => (items) =>
-  items.find((item) => item.id === id).name;
+const getNameFromId = curry(
+  (id, items) => items.find((item) => item.id === id).name
+);
 
-const getFries = getNameFromId("🍟");
-const getBurgers = getNameFromId("🍔");
+const getFries = getNameFromId("🍟", items);
+const getBurgers = getNameFromId("🍔"); // partially applying
 
-console.log(getFries(items));   // Jumbo Fries
+console.log(getFries);          // Jumbo Fries
 console.log(getBurgers(items)); // Super Burger
