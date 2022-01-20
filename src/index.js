@@ -3,33 +3,27 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Memoization</h2>
+  <h2>Procedural Programming</h2>
   <p>(Check the console!)</p>
 `;
 
-const factorial = (n) => {
-  if (n > 1) 
-    return n * factorial(n - 1);
+const cart = [];
 
-  return 1;
+const addToCart = (item) => {
+  cart.push(item);
 };
 
-const memoize = (fn) => {
-  const cache = {};
-  return (...args) => {
-    const key = JSON.stringify(args);
-    // console.log(key); // [9, {"name":"Todd Motto"}], [6]
-    if (key in cache) {
-      return cache[key];
-    } else {
-      cache[key] = fn.apply(null, args);
-      return cache[key];
-    }
-  };
+const removeFromCart = (id) => {
+  const index = cart.findIndex((obj) => obj.id === id);
+  cart.splice(index, 1);
 };
 
-const memoizedFactorial = memoize(factorial);
+const hotDog = { id: "🌭", name: "Posh Dog", price: 399 };
 
-console.log(memoizedFactorial(9, { name: "Todd Motto" })); // 362880
-console.log(memoizedFactorial(6)); // 720
-console.log(memoizedFactorial(9, { name: "Todd Motto" })); // 362880
+addToCart(hotDog);
+console.log(cart);
+
+setTimeout(() => {
+  removeFromCart("🌭");
+  console.log(cart);
+}, 2500);
