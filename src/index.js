@@ -3,23 +3,27 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Constructor Functions and ‘new’</h2>
+  <h2>Classes and Members</h2>
   <p>(Check the console!)</p>
 `;
 
-function Cart(items = []) {
-  this.items = Object.freeze(items);
+class Cart {
+  items;
+
+  constructor(items = []) {
+    this.items = Object.freeze(items);
+  }
+
+  add(item) {
+    const state = [...this.items, item];
+    this.items = Object.freeze(state);
+  }
+
+  remove(id) {
+    const state = this.items.filter((item) => item.id !== id);
+    this.items = Object.freeze(state);
+  }
 }
-
-Cart.prototype.add = function (item) {
-  const state = [...this.items, item];
-  this.items = Object.freeze(state);
-};
-
-Cart.prototype.remove = function (id) {
-  const state = this.items.filter((item) => item.id !== id);
-  this.items = Object.freeze(state);
-};
 
 const cart = new Cart();
 const hotDog = { id: "🌭", name: "Posh Dog", price: 399 };
