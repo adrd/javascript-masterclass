@@ -3,9 +3,18 @@ import "../assets/css/style.css";
 const app = document.getElementById("app");
 app.innerHTML = `
   <h1>JavaScript Masterclass</h1>
-  <h2>Frozen State and Immutable Patterns</h2>
+  <h2>Prototypes and .__proto__</h2>
   <p>(Check the console!)</p>
 `;
+
+console.log({}.constructor);
+console.log({}.__proto__);
+console.log({} instanceof Object); // true, under the hood it does {} = new Object
+
+console.log([].constructor);
+console.log([].__proto__);
+console.log([] instanceof Array);  // true, instanceof is taken into consideration the prototype chain
+console.log([] instanceof Object); // true
 
 const createCart = (items = []) => {
   return {
